@@ -1,0 +1,18 @@
+□PUSH, POP
+	PUSH B	[SP-1]←(B), [SP-2]←(C), (SP)←(SP)-2	インストラクション活用表より
+	スタックの配列が必要
+	スタックポインタも必要
+	
+	スタックの大きさ:レジスタを16個ぐらい格納できる
+	parameter STAKSIZE = 16;
+	reg [STAKSIZE-1:0] sutakku;
+	
+	スタックポインタ:0~F=4ビット
+	
+	parameter SPSIZE = 4;
+	reg [SPSIZE-1:0] SP;
+	
+	今回のCPUで使用できるのはAレジスタ、Bレジスタ、フラグレジスタ
+	PUSH ALLで全部格納
+	PUSH ALL	[SP-1]<-(A), [SP-2] <-(B), [SP-3] <-FLAG, (SP)<-(SP)-3
+	POP ALL		FLAG <- [SP], (B) <- [SP+1], (A) <- [SP+2], (SP)<-(SP+3)
