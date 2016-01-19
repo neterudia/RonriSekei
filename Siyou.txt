@@ -4,7 +4,7 @@
 	スタックポインタも必要
 	
 	スタックの大きさ:レジスタを16個ぐらい格納できる
-	parameter STAKSIZE = 16;
+	parameter STAKSIZE = 64;
 	reg [STAKSIZE-1:0] sutakku;
 	
 	スタックポインタ:0~F=4ビット
@@ -16,3 +16,9 @@
 	PUSH ALLで全部格納
 	PUSH ALL	[SP-1]<-(A), [SP-2] <-(B), [SP-3] <-FLAG, (SP)<-(SP)-3
 	POP ALL		FLAG <- [SP], (B) <- [SP+1], (A) <- [SP+2], (SP)<-(SP+3)
+	
+	PUSH
+	SP-3	C
+	SP-2	D
+	SP-1	E
+	SP		F

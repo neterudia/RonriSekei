@@ -8,8 +8,8 @@
 `define		ANA		4'b0111		//
 `define		MVB		4'b1000		//MVI B,<B2>
 `define		MVA		4'b1001		//MVI A,<B2>
-`define		OUT		4'b1010		//
-`define		IN		4'b1011		//
+`define		PUSH	4'b1010		//PUSH ALL
+`define		POP		4'b1011		//POP ALL
 `define		JZ		4'b1100		//
 `define		JNZ		4'b1101		//
 `define		JMP		4'b1110		//

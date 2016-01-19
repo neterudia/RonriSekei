@@ -14,6 +14,9 @@ module instruction_set_model;
 	parameter	MEMSIZE = (1 << ADDRSIZE);//メモリサイズ
 	parameter	FLAGBITS = 4;	//フラグの数
 	
+	parameter STAKSIZE = 16;
+	parameter SPSIZE = 4;
+	
  /*-----------------------------
 /     各種レジスタの定ギ       /
 -----------------------------*/
@@ -25,6 +28,8 @@ module instruction_set_model;
 	reg[FLAGBITS-1:0]	flagreg;
 	reg					reset;
 	
+	reg [WIDTH-1:0] sutakku[0:STAKSIZE-1];
+	reg [SPSIZE-1:0] SP;
 	
 	`define	carry	flagreg[0];
 	`define	parity	flagreg[1];
@@ -161,11 +166,26 @@ module instruction_set_model;
 							else
 								fetch;
 						end
-			`JNZ		:	begin
+			`JNZ		:
+						begin
 							if(flagreg[2]==1'b0)
 								setPC;
 							else
 								fetch;
+						end
+			`PUSH		:
+						begin
+							sutakku[SP-1]=Areg;
+							sutakku[SP-2]=Breg;
+							sutakku[SP-3]=flagreg;
+							SP = SP - 4'h3;
+						end
+			`POP		:
+						begin
+							flagreg = sutakku[SP];
+							Breg = sutakku[SP+1];
+							Areg = sutakku[SP+2];
+							SP = SP + 4'h3;
 						end
 			default	:	$display("ﾀﾞﾒ");
 		endcase
@@ -180,6 +200,7 @@ module instruction_set_model;
 		#CYCLE
 		reset = 0;
 		PC = 0;
+		SP = 4'hF;
 		clearflagreg;
 	end
 	endtask
